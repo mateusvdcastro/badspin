@@ -64,6 +64,7 @@ push: all
 	@echo "\n[x] Push lib to device"
 	adb push lib$(LIBNAME).so /data/local/tmp
 	@echo "\n[x] Copy lib to app's assets"
+	mkdir -p $(APP_DIR)/app/src/main/assets/
 	cp lib$(LIBNAME).so $(APP_DIR)/app/src/main/assets/
 
 .PHONY: clean

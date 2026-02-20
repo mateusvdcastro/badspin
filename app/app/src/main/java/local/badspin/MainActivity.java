@@ -32,10 +32,19 @@ public class MainActivity extends AppCompatActivity {
                 String dataDir = getApplicationInfo().dataDir;
                 String outputFile = dataDir + "/" + soName;
                 try {
+                    // First, let's check if the asset exists
+                    String[] assets = getAssets().list("");
+                    Log.i(TAG, "Available assets: " + java.util.Arrays.toString(assets));
+                    
+                    // Try to open the asset
+                    Log.i(TAG, "Attempting to open asset: " + soName);
                     Files.copy(getAssets().open(soName),
                                 Paths.get(outputFile),
                                 StandardCopyOption.REPLACE_EXISTING);
+                    Log.i(TAG, "Successfully copied " + soName + " to " + outputFile);
                 } catch (IOException e) {
+                    Log.e(TAG, "Failed to copy asset: " + e.getMessage());
+                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
                 String cmd = "LD_LIBRARY_PATH=" + dataDir +
